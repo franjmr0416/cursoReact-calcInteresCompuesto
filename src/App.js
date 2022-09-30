@@ -1,4 +1,5 @@
 import { Formik, Form } from "formik";
+import * as Yup from "yup";
 import { useState } from "react";
 import Balance from "./components/Balance";
 import Button from "./components/Button";
@@ -22,6 +23,7 @@ const formatter = new Intl.NumberFormat("en-US", {
 
 const App = () => {
   const [balance, setBalance] = useState("");
+
   const handleSubmit = ({ deposit, contribution, years, rate }) => {
     const val = compoundInterest(
       Number(deposit),
@@ -30,6 +32,7 @@ const App = () => {
       Number(rate)
     );
     setBalance(formatter.format(val));
+    console.log(val);
   };
   return (
     <Container>
@@ -37,13 +40,29 @@ const App = () => {
         <Formik
           initialValues={{ deposit: "", contribution: "", years: "", rate: "" }}
           onSubmit={handleSubmit}
+          validationSchema={Yup.object({
+            deposit: Yup.number()
+              .required("Obligatorio")
+              .typeError("Ingrese un número"),
+            contribution: Yup.number()
+              .required("Obligatorio")
+              .typeError("Ingrese un número"),
+            years: Yup.number()
+              .required("Obligatorio")
+              .typeError("Ingrese un número"),
+            rate: Yup.number()
+              .required("Obligatorio")
+              .typeError("Ingrese un número")
+              .min(0, "Valor mínimo 0")
+              .max(1, "Valor máximo 1"),
+          })}
         >
           <Form>
             <Input name="deposit" label="Depósito inicial" />
             <Input name="contribution" label="Contribución anual" />
             <Input name="years" label="Años" />
             <Input name="rate" label="Interés estimado" />
-            <Button>Calcular</Button>
+            <Button type="submit">Calcular</Button>
           </Form>
         </Formik>
         {balance !== "" ? <Balance>Balance final: {balance}</Balance> : null}
