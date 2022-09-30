@@ -1,3 +1,7 @@
+# Calculadora de interes compuesto con Styled-Components y validación en Yup
+
+![image](https://user-images.githubusercontent.com/51140256/193360438-d8104770-baae-4fd7-8602-4a649c6c32e2.png)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
